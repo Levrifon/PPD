@@ -1,7 +1,7 @@
 /* ------------------------------
    $Id: mandel-seq.c,v 1.2 2008/03/04 09:52:55 marquet Exp $
    ------------------------------------------------------------
-   
+   essayer de recouvrir les communications
    Affichage de l'ensemble de Mandelbrot.
    Version sequentielle.
    
