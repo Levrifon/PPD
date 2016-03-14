@@ -178,7 +178,7 @@ main (int argc, char *argv[])
 
     init_picture(&mypict,x_size,y_size/procs);
     while(chargeperproc < dimension) {
-      /* do something for each iteration by reducing calculation */
+      compute(&mypict,n_iter,x_min,x_max,y_min + chargeperproc,
     }
     compute (&mypict, n_iter, x_min, x_max, y_min + delta*(self+1), y_min + delta*(self));
     MPI_Gather(mypict.pixels,x_size*(y_size/procs),MPI_CHAR,pict.pixels,x_size*(y_size/procs),MPI_CHAR,0,com);
