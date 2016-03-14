@@ -173,12 +173,13 @@ main (int argc, char *argv[])
     workcharge = x_size * y_size / (procs * division);
     /* sous dimensions * nbprocs */
     chargeperproc = workcharge * procs;
-
     delta = ((y_max -y_min)/procs);
 
     init_picture(&mypict,x_size,y_size/procs);
     while(chargeperproc < dimension) {
       compute(&mypict,n_iter,x_min,x_max,y_min + chargeperproc,
+      /* redistribuer le travail en sous travaux*/
+      /*recuperer les donnees*/
     }
     compute (&mypict, n_iter, x_min, x_max, y_min + delta*(self+1), y_min + delta*(self));
     MPI_Gather(mypict.pixels,x_size*(y_size/procs),MPI_CHAR,pict.pixels,x_size*(y_size/procs),MPI_CHAR,0,com);
