@@ -159,19 +159,30 @@ main (int argc, char *argv[])
     MPI_Comm_size (com, &procs);
     MPI_Comm_rank (com, &self);
     int n_iter,			/* degre de nettete  */  
-	x_size, y_size;		/* & dimensions de l'image */  
+	x_size, y_size,workcharge,division;		/* & dimensions de l'image */  
     double x_min, x_max, y_min, y_max,delta; /* bornes de la representation */
     char *pathname;		/* fichier destination */
     picture_t pict;
     picture_t mypict;
     parse_argv(argc, argv,&n_iter,&x_min, &x_max, &y_min, &y_max,&x_size, &y_size, &pathname);
+    division = 2;
     if(self == 0) {
       init_picture(&pict, x_size, y_size);
     }
-    delta = (y_max -y_min)/procs;
+    /* calcul de la charge de travail = dimension de l'image  (donc sous dimensions / procs)*/
+    workcharge = x_size * y_size / (procs * division);
+    /* sous dimensions * nbprocs */
+    chargeperproc = workcharge * procs;
+
+    delta = ((y_max -y_min)/procs);
+
     init_picture(&mypict,x_size,y_size/procs);
+    while(chargeperproc < workcharge) {
+
+    }
     compute (&mypict, n_iter, x_min, x_max, y_min + delta*(self+1), y_min + delta*(self));
     MPI_Gather(mypict.pixels,x_size*(y_size/procs),MPI_CHAR,pict.pixels,x_size*(y_size/procs),MPI_CHAR,0,com);
+
     if(self == 0) {
       save_picture(&pict,pathname);
     }
