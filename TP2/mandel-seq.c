@@ -24,7 +24,7 @@
 #define X_SIZE  2048		/* dimension image */
 #define Y_SIZE  1536
 #define FILENAME "mandel.ppm"	/* image resultat */
-
+#define MAITRE 0
 
 /*------------------------------
   Les processus
@@ -166,7 +166,8 @@ main (int argc, char *argv[])
     parse_argv(argc, argv,&n_iter,&x_min, &x_max, &y_min, &y_max,&x_size, &y_size, &pathname);
     division = 2;
     dimension = x_size*y_size;
-    if(self == 0) {
+    /* ici on initialise la picture avec le maitre */
+    if(self == MAITRE) {
       init_picture(&pict, x_size, y_size);
     }
     /* calcul de la charge de travail = dimension de l'image  (donc sous dimensions / procs)*/
@@ -182,9 +183,9 @@ main (int argc, char *argv[])
       /*recuperer les donnees*/
     }
     compute (&mypict, n_iter, x_min, x_max, y_min + delta*(self+1), y_min + delta*(self));
-    MPI_Gather(mypict.pixels,x_size*(y_size/procs),MPI_CHAR,pict.pixels,x_size*(y_size/procs),MPI_CHAR,0,com);
+    MPI_Gather(mypict.pixels,x_size*(y_size/procs),MPI_CHAR,pict.pixels,x_size*(y_size/procs),MPI_CHAR,MAITRE,com);
 
-    if(self == 0) {
+    if(self == MAITRE) {
       save_picture(&pict,pathname);
     }
     MPI_Finalize ();
