@@ -1,0 +1,10 @@
+Calculer une valeur approximative de Pi :
+
+4*Somme(0->m=10⁸) = (-1)^i/(2i+1)
+Enregistrer les valeurs intermédiaires dans un fichier
+
+Observations : nb calculs / machine
+
+Variables : 'm' , 'p' (nb process)
+
+speed up : sequentiel / parallele
