@@ -1,14 +1,16 @@
 #!/bin/bash
 
-machines=‘cat $OAR_FILE_NODES | uniq‘
+machines=`cat $OAR_FILE_NODES | uniq`
 i=0
+j=200
 mpi=10000
 for m in $machines; do
 
-echo "Execution sur $m .....";
+oarsh $m ./calculpi $i $j 'resinter.txt' > $m &
 
-oarsh $m `./calculpi` $i $i+200 'resinter.txt' > $m &
-
-$i+=200
+i=$(($i + 200))
+j=$(($j + 200))
 
 done
+
+

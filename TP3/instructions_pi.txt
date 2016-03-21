@@ -13,3 +13,8 @@ speed up : sequentiel / parallele
 A Valider :
 - Script de calcul de Pi (graph avec p , m et temps)
 - Fractal à essayer de mettre sur la grille et faire des observations de temps de calcul
+
+
+Instructions pour Grid5000:
+Reserver un noeud avec oarsub -l /nodes=2,walltime=00:03:00 <./script.sh>
+
