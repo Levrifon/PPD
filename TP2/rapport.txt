@@ -1,0 +1,28 @@
+Rendu PPD
+
+Sujet : Génération de fractale avec un code simple, puis amélioré avec les bibliothéques MPI.
+
+
+1ere étape :
+------------
+   La génération du fractacle se fait normalement, on génére l'image en entier sans communications et sans MPI.
+   Le temps d'execution est plutôt correct, mais si la dimension/qualité/itération du fractal augmente, le temps devient assez conséquent.
+
+2ème étape :
+------------
+   Gestion du rendu avec MPI. L'image est coupée en sous partie, chaque sous-processus va générer sa partie de l'image
+   (compute (&mypict, n_iter, x_min, x_max, y_min + delta*(self+1), y_min + delta*(self));) etc
+   A la fin lorsque tous les processus ont terminés, on va récolter (Gather) les résultats pour le rendu de l'image totale.
+   + Génération plus rapide
+   - Si un processus a terminé, il reste inactif et laisse les autres travailler
+
+Gain en Théorie = (t / nbprocs) + c
+avec t = temps
+nbprocs = nb processus
+c = cout de la communication
+
+/!\ 3ème étape :
+------------
+   On garde la gestion du fractal en MPI mais cette fois ci, une fois qu'un sous processus a terminé il va redemander du travail à un autre qui n'aurait pas terminé. (Système Maitre/Esclave)
+
+
