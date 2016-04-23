@@ -1,0 +1,43 @@
+Rémy DEBUE - Rapport PPD 2016
+
+Exercice sur un calcul de PI parallélisé :
+
+Le but de ce TP était de voir différentes approches d'un calcul mathématiques permettant d'obtenir une valeur qui tend vers le chiffre PI.
+
+Dans un premier temps nous avons executé ce programme sur notre propre machine. Le code réalise une boucle de 0 à une valeure fixée (qui correspond à la précision du calcul)
+
+Voici la formule en question : 4*Somme(0->m=10⁸) = (-1)^i/(2i+1)
+
+Sur une execution simple avec stockage dans un fichier on obtient :
+-------------------------------------------------------------------
+
+PRECISION (m)     REAL     USER     SYS
+10³               0.003    0.002    0.000
+10⁵               0.017    0.017    0.000
+10⁶               0.034    0.034    0.000
+10⁷               3.019    3.019    0.000
+10⁹               28.387   28.383   0.000
+
+Remarques : 
+Le temps système vaut toujours zéro (ce qui est normal car il n'y a pas d'appels systèmes dans le programme ). On note également que le temps d'execution augmente très rapidement (jusqu'à 9.4x entre 10⁷ et 10⁹) puisque la boucle contient une concaténation de resultat intermédiaire, ainsi qu'un calcul de puissance, ce qui peut revenir cher lorsque la borne supérieure augmente.
+
+
+
+Sur une execution avec utilisation de GRID5000:
+-----------------------------------------------
+
+Pour travailler sur GRID5000 (ou Grid5K) il faut tout d'abord reserver un noeud pour executer notre script :
+"Reserver un noeud avec oarsub -l /nodes=2,walltime=00:03:00 <./script.sh>"
+
+Le principe d'utiliser Grid5K est qu'on peut profiter d'un réseau à travers la France contenant des clusters de machines permettant d'éxécuter de grand calculs en vitesse accélérée.
+
+PRECISION (m)     REAL     USER     SYS
+10³                      négligeable
+10⁵                      négligeable
+10⁶                        0.021
+10⁷                        0.847
+10⁹                        3.115
+
+Par rapport à la version simple du programme on observe un speedup de 911% pour 10⁹ et de 356% pour 10⁷ les autres valeurs sont négligeables ou bien pas assez pertinente pour remarquer un réel écart.
+
+

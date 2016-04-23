@@ -4,7 +4,7 @@
 int main(int argc, char* argv[]) {
 	FILE* fichier = NULL;
 	/* arg1 = i , arg2 = m , arg3 = filename */
-	if(argc < 4) { return -1;}
+	if(argc < 4) { printf("missing args <start> <end> <filename>\n");return -1;}
 	/* point de depart de l'intervalle du calcul */
 	int i = atoi(argv[1]);
 	/* point d'arrivée de l'intervalle du calcul */
